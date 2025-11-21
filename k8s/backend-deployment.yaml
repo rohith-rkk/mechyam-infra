@@ -15,9 +15,10 @@ spec:
       labels:
         app: backend
       annotations:
+        
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
-        prometheus.io/path: "/actuator/prometheus" 
+        prometheus.io/path: "/mechyam/actuator/prometheus"
     spec:
       containers:
         - name: backend
@@ -25,26 +26,25 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          
           env:
             - name: SPRING_DATASOURCE_URL
-      
               value: "jdbc:mysql://mysql-service:3306/mechyamdb?createDatabaseIfNotExist=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
-              value: "rootpassword" 
+              value: "rootpassword"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"
-
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /mechyam/actuator/health
               port: 8080
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30 
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /mechyam/actuator/health
               port: 8080
-            initialDelaySeconds: 40
+            initialDelaySeconds: 60 
             periodSeconds: 10
