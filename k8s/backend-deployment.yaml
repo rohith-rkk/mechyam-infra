@@ -35,6 +35,10 @@ spec:
               value: "rootpassword"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"
+            
+           
+            - name: MANAGEMENT_HEALTH_REDIS_ENABLED
+              value: "false"
 
           
           readinessProbe:
@@ -43,14 +47,13 @@ spec:
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
-            timeoutSeconds: 5        
-            failureThreshold: 5     
-          
+            timeoutSeconds: 5
+            failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /mechyam/actuator/health
               port: 8080
-            initialDelaySeconds: 90  
+            initialDelaySeconds: 90
             periodSeconds: 15
-            timeoutSeconds: 5        
-            failureThreshold: 5      
+            timeoutSeconds: 5
+            failureThreshold: 5
