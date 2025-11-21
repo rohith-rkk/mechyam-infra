@@ -15,7 +15,6 @@ spec:
       labels:
         app: backend
       annotations:
-        
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/mechyam/actuator/prometheus"
@@ -36,15 +35,22 @@ spec:
               value: "rootpassword"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"
+
+          
           readinessProbe:
             httpGet:
               path: /mechyam/actuator/health
               port: 8080
-            initialDelaySeconds: 30 
+            initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5        
+            failureThreshold: 5     
+          
           livenessProbe:
             httpGet:
               path: /mechyam/actuator/health
               port: 8080
-            initialDelaySeconds: 60 
-            periodSeconds: 10
+            initialDelaySeconds: 90  
+            periodSeconds: 15
+            timeoutSeconds: 5        
+            failureThreshold: 5      
