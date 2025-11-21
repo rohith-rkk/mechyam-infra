@@ -38,7 +38,8 @@ mechyam-infra/
 │
 └── argocd/                # ArgoCD Configuration
     └── application.yaml   # App-of-Apps definition for GitOps Sync
-⚙️ Deployment Instructions
+
+## ⚙️ Deployment Instructions
 Prerequisites
 AWS CLI (configured with credentials)
 
@@ -48,7 +49,7 @@ Kubectl
 
 Git
 
-Phase 1: Infrastructure Provisioning (Terraform)
+## Phase 1: Infrastructure Provisioning (Terraform)
 1.Navigate to the terraform directory:
 cd terraform
 2.Initialize and Apply:
@@ -59,7 +60,7 @@ terraform apply --auto-approve
 3.Connect to the Cluster:
 aws eks update-kubeconfig --region ap-south-1 --name mechyam-eks
 
-Phase 2: GitOps Bootstrap (ArgoCD)
+## Phase 2: GitOps Bootstrap (ArgoCD)
 1.Install ArgoCD into the cluster:
 kubectl create namespace argocd
 kubectl apply -n argocd -f [https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml](https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
