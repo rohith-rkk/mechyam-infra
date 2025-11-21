@@ -17,7 +17,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
-        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/path: "/mechyam/actuator/prometheus"
     spec:
       containers:
         - name: backend
@@ -27,13 +27,13 @@ spec:
             - containerPort: 8080
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /mechyam/actuator/health
               port: 8080
             initialDelaySeconds: 15
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /mechyam/actuator/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
