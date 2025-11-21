@@ -18,13 +18,13 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "80"
         prometheus.io/path: "/metrics"
+    spec:
       containers:
-        - name: frontend
-          image: docrohith/frontend-service:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 80
-        
-          envFrom:
-            - configMapRef:
-                name: frontend-config
+      - name: frontend
+        image: docrohith/frontend-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: frontend-config
