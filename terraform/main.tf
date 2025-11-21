@@ -11,6 +11,7 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.0.0"
@@ -21,9 +22,15 @@ module "vpc" {
   azs             = ["${var.region}a", "${var.region}b"]
   public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
 
-  enable_nat_gateway = false
-  map_public_ip_on_launch = true
+
+  enable_nat_gateway      = false
+  single_nat_gateway      = false
+  map_public_ip_on_launch = true 
+  
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 }
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.4"
@@ -31,15 +38,27 @@ module "eks" {
   cluster_name    = "${var.project}-eks"
   cluster_version = "1.30"
 
-  subnet_ids = module.vpc.public_subnets
-  vpc_id     = module.vpc.vpc_id
+
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = module.vpc.public_subnets
+  control_plane_subnet_ids = module.vpc.public_subnets
+
+  cluster_endpoint_public_access = true
+
+
+  enable_cluster_creator_admin_permissions = true
 
   eks_managed_node_groups = {
     default = {
-      desired_size  = 1
-      max_size      = 1
-      min_size      = 1
-      instance_types = ["t3.micro"]
+      desired_size = 2 
+      min_size     = 1
+      max_size     = 2
+
+  
+      instance_types = ["t3.medium"] 
+      
+    
+      associate_public_ip_address = true 
     }
   }
 
